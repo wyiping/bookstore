@@ -1,51 +1,92 @@
 const express = require("express");
 const db = require('../../my_modules/db');
 const check = require('../../my_modules/check');
-
+// 获取显示的页数，最多5页
+function getPages(page, pageCount) {
+    var pages = [page];
+    var left = page - 1;
+    var right = page + 1;
+    // 左右两边各加1个页码,直到页码够5个或左边到1 右边到总页数
+    while (pages.length < 5 && (left >= 1 || right <= pageCount)) {
+        if (left > 0) pages.unshift(left--);
+        if (right <= pageCount) pages.push(right++);
+    }
+    return pages;
+}
 var router = express.Router()
-router.get('/', check, (req, res) => {
-    res.render('back/admin');
-})
 
-// 管理员登录页面
-router.get('/login', (req, res) => {
-    res.render('back/login')
-})
-// 处理管理员登录请求
-router.post('/login', (req, res) => {
-    db.User.find({ username: req.body.username }).count((err, count) => {
+// 用户列表
+router.get('/list/(:page)?', (req, res) => {
+    var page = req.params.page;
+    page = page || 1;
+    page = parseInt(page);
+    var order = { 'username': 1 };
+    var pageSize = 10;
+
+    db.User.find().count((err, total) => {
         if (err) {
-            res.json({ code: 0, msg: '系统错误,请重试' })
+            console.log(err)
         } else {
-            if (count > 0) {
-                db.User.findOne({ username: req.body.username }, (err, data) => {
-                    // 判断是否为管理员
-                    if (data.isAdmin) {
-                        if (req.body.password == data.password) {
-                            // 设置cookie 30分钟
-                            res.cookie('user',
-                                { username: data.username, petname: data.petname, id: data._id },
-                                { maxAge: 1000 * 60 * 30 }
-                            )
-                            res.json({ code: 1, msg: '登录成功' })
-                        } else {
-                            res.json({ code: 0, msg: '密码错误,请重新输入' })
-                        }
-                    } else {
-                        res.json({ code: 0, msg: '此用户不是管理员' })
-                    }
-
+            var pageCount = Math.ceil(total / pageSize);
+            page = page > pageCount ? pageCount : page
+            page = page < 1 ? 1 : page;
+            // select对数据属性进行筛选，属性名之间用空格分隔
+            db.User.find().sort(order).skip((page - 1) * pageSize).limit(pageSize).exec((err, data) => {
+                res.render('back/user/list.html', {
+                    page, pageCount, pageSize, order, pages: getPages(page, pageCount),
+                    users: data
                 })
-            } else {
-                res.json({ code: 0, msg: '用户未注册,请注册' })
-            }
+            })
         }
     })
 })
+// 添加用户
+router.get('/add', (req, res) => {
+    res.render('back/user/add.html')
+})
+router.post('/add', (req, res) => {
+    new db.User(req.body).save(err => {
+        if (err) {
+            if (err.code == 11000) {
+                res.json({ code: 0, msg: '用户名已存在' })
+            } else {
+                res.json({ code: 0, msg: '添加失败,系统出错' })
+            }
+        } else {
+            res.json({ code: 1, msg: '添加成功' })
+        }
+    })
+})
+// 编辑用户
+router.get('/edit/:id', (req, res) => {
+    db.User.findById(req.params.id, (err, data) => {
+        if (err) {
 
-// 管理员注销
-router.get('/logout', (req, res) => {
-    res.clearCookie('user');
-    res.render('back/login')
+        } else {
+            res.render('back/user/edit.html', { user: data })
+        }
+    })
+})
+router.post('/edit/:id', (req, res) => {
+    db.User.findByIdAndUpdate(req.params.id, req.body, err => {
+        if (err) {
+            res.json({ code: 0, msg: '系统错误' });
+        }
+        else {
+            res.json({ code: 1, msg: '更新成功！' });
+        }
+    })
+})
+// 删除用户
+router.get('/del/:id', (req, res) => {
+    // 通过用户名找到要删除的用户
+    db.User.findByIdAndRemove(req.params.id, err => {
+        if (err) {
+            res.json({ code: 0, msg: '系统错误' });
+        }
+        else {
+            res.json({ code: 1, msg: '删除成功！' });
+        }
+    })
 })
 module.exports = router;

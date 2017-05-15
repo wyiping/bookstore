@@ -1,0 +1,83 @@
+{{extend '../template.html'}} {{block 'title'}}添加用户{{/block}} {{block 'content'}}
+<div class="row">
+    <div class="col-md-10 col-md-push-1">
+        <!-- Horizontal Form -->
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">添加用户</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form class="form-horizontal">
+                <div class="box-body">
+                    <div class="alert alert-danger fade in js-msg col-md-10 col-md-push-1" role="alert" style="display:none;"></div>
+                    <div class="form-group">
+                        <label for="username" class="col-sm-2 control-label">用户名</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="username" class="form-control" id="username" placeholder="用户名">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="petname" class="col-sm-2 control-label">昵称</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="petname" class="form-control" id="petname" placeholder="昵称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-sm-2 control-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" name="email" class="form-control" id="email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone" class="col-sm-2 control-label">手机</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="phone" class="form-control" id="phone" placeholder="手机">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-2 control-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="col-sm-2 control-label">地址</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" name="address" id="address" rows="3" placeholder="Enter ..."></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="isAdmin" class="col-sm-2 control-label">角色</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="isAdmin">
+                                <option value="false">普通用户</option>
+                                <option value="true">管理员</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <center><button type="submit" class="btn btn-info">添加</button></center>
+                </div>
+                <!-- /.box-footer -->
+            </form>
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
+<script>
+    $('form').submit(function (ev) {
+        ev.preventDefault();
+        $.post('/admin/user/add', $(this).serialize(), function (res) {
+            if (res.code == 1) {
+                window.location.href = '/admin/user/list/';
+            } else {
+                $('.js-msg').html(res.msg).show('normal');
+            }
+        })
+    })
+
+</script>
+{{/block}}

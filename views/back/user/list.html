@@ -1,0 +1,63 @@
+{{extend '../template.html'}} {{block 'title'}}用户列表{{/block}} {{block 'content'}}
+<div class="row">
+    <div class="col-md-10 col-md-push-1">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">用户列表</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <th style="width: 10px">#</th>
+                        <th style="width:15%;">用户名</th>
+                        <th>昵称</th>
+                        <th>邮箱</th>
+                        <th>地址</th>
+                        <th>手机</th>
+                        <th>操作</th>
+                    </tr>
+                    {{each users as user i}}
+                    <tr>
+                        <td>{{i + 1 }}.</td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.petname}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.address}}</td>
+                        <td>{{user.phone}}</td>
+                        <td>
+                            <a href="/admin/user/edit/{{user.id}}"><i class="fa fa-edit"></i>编辑</a>
+                            <a href="" onclick="del('/admin/user/del/{{user.id}}')"><i class="fa fa-trash-o"></i>删除</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </table>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+                <ul class="pagination pagination-sm no-margin pull-right">
+                    <li><a href="#">&laquo;</a></li>
+                    {{each pages as p}}
+                    <li><a href="">{{p}}</a></li>
+                    {{/each}}
+                    <li><a href="#">&raquo;</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
+<script>
+    function del(url) {
+        $.get(url, function (res) {
+            if (res.code == 1) {
+                window.location.href = '/admin/user/list/';
+            } else {
+                $('.js-msg').html(res.msg).show('normal');
+            }
+        })
+    }
+
+</script>
+<!-- /.col -->
+{{/block}}
