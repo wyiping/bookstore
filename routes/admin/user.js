@@ -1,13 +1,12 @@
 const express = require("express");
 const db = require('../../my_modules/db');
-const check = require('../../my_modules/check');
-// 获取显示的页数，最多5页
+// 获取显示的页数，最多10页
 function getPages(page, pageCount) {
     var pages = [page];
     var left = page - 1;
     var right = page + 1;
-    // 左右两边各加1个页码,直到页码够5个或左边到1 右边到总页数
-    while (pages.length < 5 && (left >= 1 || right <= pageCount)) {
+    // 左右两边各加1个页码,直到页码够10个或左边到1 右边到总页数
+    while (pages.length < 10 && (left >= 1 || right <= pageCount)) {
         if (left > 0) pages.unshift(left--);
         if (right <= pageCount) pages.push(right++);
     }

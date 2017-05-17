@@ -36,11 +36,11 @@
             <!-- /.box-body -->
             <div class="box-footer clearfix">
                 <ul class="pagination pagination-sm no-margin pull-right">
-                    <li><a href="#">&laquo;</a></li>
+                    <li><a href="javascript:void(0)" {{if page !=1 }} onclick="go('{{page-1}}')" {{/if}}>&laquo;</a></li>
                     {{each pages as p}}
-                    <li><a href="">{{p}}</a></li>
+                    <li><a href="javascript:void(0)" onclick="go('{{p}}')" {{if p == page }}class="active" {{/if}}>{{p}}</a></li>
                     {{/each}}
-                    <li><a href="#">&raquo;</a></li>
+                    <li><a href="javascript:void(0)" {{if page != pageCount }} onclick="go('{{page+1}}')" {{/if}}>&raquo;</a></li>
                 </ul>
             </div>
         </div>
@@ -56,6 +56,9 @@
                 $('.js-msg').html(res.msg).show('normal');
             }
         })
+    }
+    function go(page) {
+        window.location.href = '/admin/user/list/' + page;
     }
 
 </script>

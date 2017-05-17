@@ -33,7 +33,7 @@ var BookSchema = new Schema({
     price: String,
     publisher: String,
     ISBN: String,
-    score: String,
+    score: Number,
     time: String,
     introduction: String
 });
