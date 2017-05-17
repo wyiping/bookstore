@@ -2,15 +2,15 @@
 const mongoose = require('mongoose')
 
 //设置数据库连接地址
-mongoose.connect('mongodb://book:wangyiping@book.61780374.xyz:27017/bookstore')
+mongoose.connect('mongodb://localhost:27017/bookstore')
 
 //连接数据库
 var db = mongoose.connection;
 
 // 数据库连接失败的提示
-db.on('error', err => console.error('mongodb connection error...', err));
+db.on('error', err => console.error('数据库连接错误：', err));
 // 数据库连接成功的提示
-db.once('open', () => console.log('mongodb connection success...'));
+db.once('open', () => console.log('数据库连接成功'));
 
 var Schema = mongoose.Schema;
 
