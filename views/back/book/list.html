@@ -1,0 +1,69 @@
+{{extend '../template.html'}} {{block 'title'}}书籍列表{{/block}} {{block 'content'}}
+<div class="row">
+    <div class="col-md-10 col-md-push-1">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">书籍列表</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>名称</th>
+                        <th>作者</th>
+                        <th>价格</th>
+                        <th>出版商</th>
+                        <th>ISBN</th>
+                        <th>评分</th>
+                        <th>出版时间</th>
+                        <th>操作</th>
+                    </tr>
+                    {{if books.length > 0}} {{each books as book i}}
+                    <tr>
+                        <td>{{book.bookName}}</td>
+                        <td>{{book.author}}</td>
+                        <td>{{book.price}}</td>
+                        <td>{{book.publisher}}</td>
+                        <td>{{book.ISBN}}</td>
+                        <td>{{book.score}}</td>
+                        <td>{{book.time}}</td>
+                        <td>
+                            <a href="/admin/book/edit/{{book.id}}"><i class="fa fa-edit"></i>编辑</a>
+                            <a href="" onclick="del('/admin/book/del/{{book.id}}')"><i class="fa fa-trash-o"></i>删除</a>
+                        </td>
+                    </tr>
+                    {{/each}} {{else}}
+                    <tr>
+                        <td colspan="8" class="text-center">当前书籍为空</td>
+                    </tr>
+                    {{/if}}
+                </table>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+                <ul class="pagination pagination-sm no-margin pull-right">
+                    <li><a href="#">&laquo;</a></li>
+                    {{each pages as p}}
+                    <li><a href="">{{p}}</a></li>
+                    {{/each}}
+                    <li><a href="#">&raquo;</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
+<script>
+    function del(url) {
+        $.get(url, function (res) {
+            if (res.code == 1) {
+                window.location.href = '/admin/book/list/';
+            } else {
+                $('.js-msg').html(res.msg).show('normal');
+            }
+        })
+    }
+
+</script>
+<!-- /.col -->
+{{/block}}

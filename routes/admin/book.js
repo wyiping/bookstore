@@ -15,15 +15,15 @@ function getPages(page, pageCount) {
 }
 var router = express.Router()
 
-// 用户列表
+// 书籍列表
 router.get('/list/(:page)?', (req, res) => {
     var page = req.params.page;
     page = page || 1;
     page = parseInt(page);
-    var order = { 'username': 1 };
+    var order = { 'bookName': 1 };
     var pageSize = 10;
 
-    db.User.find().count((err, total) => {
+    db.Book.find().count((err, total) => {
         if (err) {
             console.log(err)
         } else {
@@ -31,24 +31,24 @@ router.get('/list/(:page)?', (req, res) => {
             page = page > pageCount ? pageCount : page
             page = page < 1 ? 1 : page;
             // select对数据属性进行筛选，属性名之间用空格分隔
-            db.User.find().sort(order).skip((page - 1) * pageSize).limit(pageSize).exec((err, data) => {
-                res.render('back/user/list.html', {
+            db.Book.find().sort(order).skip((page - 1) * pageSize).limit(pageSize).exec((err, data) => {
+                res.render('back/book/list.html', {
                     page, pageCount, pageSize, order, pages: getPages(page, pageCount),
-                    users: data
+                    books: data
                 })
             })
         }
     })
 })
-// 添加用户
+// 添加书籍
 router.get('/add', (req, res) => {
-    res.render('back/user/add.html')
+    res.render('back/book/add.html')
 })
 router.post('/add', (req, res) => {
-    new db.User(req.body).save(err => {
+    new db.Book(req.body).save(err => {
         if (err) {
             if (err.code == 11000) {
-                res.json({ code: 0, msg: '用户名已存在' })
+                res.json({ code: 0, msg: '此书已存在' })
             } else {
                 res.json({ code: 0, msg: '添加失败,系统出错' })
             }
@@ -57,18 +57,18 @@ router.post('/add', (req, res) => {
         }
     })
 })
-// 编辑用户
+// 编辑书籍
 router.get('/edit/:id', (req, res) => {
-    db.User.findById(req.params.id, (err, data) => {
+    db.Book.findById(req.params.id, (err, data) => {
         if (err) {
 
         } else {
-            res.render('back/user/edit.html', { user: data })
+            res.render('back/book/edit.html', { book: data })
         }
     })
 })
 router.post('/edit/:id', (req, res) => {
-    db.User.findByIdAndUpdate(req.params.id, req.body, err => {
+    db.Book.findByIdAndUpdate(req.params.id, req.body, err => {
         if (err) {
             res.json({ code: 0, msg: '系统错误' });
         }
@@ -77,9 +77,9 @@ router.post('/edit/:id', (req, res) => {
         }
     })
 })
-// 删除用户
+// 删除书籍
 router.get('/del/:id', (req, res) => {
-    db.User.findByIdAndRemove(req.params.id, err => {
+    db.Book.findByIdAndRemove(req.params.id, err => {
         if (err) {
             res.json({ code: 0, msg: '系统错误' });
         }

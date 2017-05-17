@@ -1,0 +1,86 @@
+{{extend '../template.html'}} {{block 'title'}}{{book.bookName}}修改信息{{/block}} {{block 'content'}}
+<div class="row">
+    <div class="col-md-10 col-md-push-1">
+        <!-- Horizontal Form -->
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">修改信息</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form class="form-horizontal">
+                <div class="box-body">
+                    <div class="alert alert-danger fade in js-msg col-md-10 col-md-push-1" role="alert" style="display:none;"></div>
+                    <div class="form-group">
+                        <label for="bookName" class="col-sm-2 control-label">书籍名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="bookName" class="form-control" id="bookName" placeholder="书名" value="{{book.bookName}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="author" class="col-sm-2 control-label">作者</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="author" class="form-control" id="author" placeholder="作者" value="{{book.author}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="price" class="col-sm-2 control-label">价格</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="price" class="form-control" id="price" placeholder="价格" value="{{book.price}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="publisher" class="col-sm-2 control-label">出版商</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="publisher" class="form-control" id="publisher" placeholder="出版商" value="{{book.publisher}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ISBN" class="col-sm-2 control-label">ISBN</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="ISBN" class="form-control" id="ISBN" placeholder="ISBN" value="{{book.ISBN}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="score" class="col-sm-2 control-label">评分</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="score" class="form-control" id="score" placeholder="评分" value="{{book.score}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="time" class="col-sm-2 control-label">出版时间</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="time" class="form-control" id="time" placeholder="出版时间" value="{{book.time}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="introduction" class="col-sm-2 control-label">简介</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" name="introduction" id="introduction" rows="4" placeholder="简介">{{book.introduction}}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <center><button type="submit" class="btn btn-info">修改</button></center>
+                </div>
+                <!-- /.box-footer -->
+            </form>
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
+<script>
+    $('form').submit(function (ev) {
+        ev.preventDefault();
+        $.post('/admin/book/edit/{{book.id}}', $(this).serialize(), function (res) {
+            if (res.code == 1) {
+                window.location.href = '/admin/book/list/';
+            } else {
+                $('.js-msg').html(res.msg).show('normal');
+            }
+        })
+    })
+
+</script>
+{{/block}}
