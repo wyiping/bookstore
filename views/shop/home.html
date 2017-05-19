@@ -1,0 +1,67 @@
+{{extend './main.html'}} {{block 'title'}}图书商城{{/block}} {{block 'content'}}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="left-sidebar">
+                    <h2>分类</h2>
+                    <div class="panel-group category-products" id="accordian">
+                        <!--category-productsr-->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
+										<span class="badge pull-right"><i class="fa fa-plus"></i></span>
+										文艺
+									</a>
+                                </h4>
+                            </div>
+                            <div id="sportswear" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <ul>
+                                        <li><a href="#">小说</a></li>
+                                        <li><a href="#">文学</a></li>
+                                        <li><a href="#">传记</a></li>
+                                        <li><a href="#">动漫</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="#">计算机</a></h4>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title"><a href="#">历史</a></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/category-products-->
+                </div>
+            </div>
+            <div class="col-sm-9 padding-right">
+                <!--features_items-->
+                <div class="features_items">
+
+                </div>
+                <!--recommended_items-->
+                <div class="recommended_items">
+
+                </div>
+                <!--/recommended_items-->
+            </div>
+        </div>
+    </div>
+</section>
+{{/block}} {{block 'script'}}
+<script>
+    $(function () {
+        $('.features_items').load('/list/new/9')
+        $('.recommended_items').load('/list/recommend/9');
+    })
+
+</script>
+{{/block}}

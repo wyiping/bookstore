@@ -1,0 +1,31 @@
+<h2 class="title text-center">推荐书籍</h2>
+<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        {{set index = 0}}
+        <% for(var i = 0; i < 3; i++){%>
+            <div class="item{{if index == 0}} active{{/if}}">
+                {{set temp = index + 3}}
+                <% for(var j = index; j < temp; j++,index++){ %>
+                    <div class="col-sm-4">
+                        <div class="product-image-wrapper">
+                            <div class="single-products">
+                                <div class="productinfo text-center">
+                                    <img src="images/home/{{books[j].pic}}" onerror="this.src='/img/home/no-img.png'" alt="" />
+                                    <h2>{{books[j].bookName}}</h2>
+                                    <p>{{books[j].price}}</p>
+                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>添加到购物车</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+            </div>
+            <% }%>
+    </div>
+    <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+        <i class="fa fa-angle-left"></i>
+    </a>
+    <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
+        <i class="fa fa-angle-right"></i>
+    </a>
+</div>
