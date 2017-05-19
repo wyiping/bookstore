@@ -35,7 +35,8 @@ var BookSchema = new Schema({
     ISBN: String,
     score: Number,
     time: String,
-    introduction: String
+    introduction: String,
+    picture: String
 });
 var Book = mongoose.model('book', BookSchema);
 

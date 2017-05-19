@@ -1,5 +1,8 @@
 const express = require("express");
 const db = require('../../my_modules/db');
+const upload = require('../../my_modules/upload')
+var router = express.Router()
+
 // 获取显示的页数，最多10页
 function getPages(page, pageCount) {
     var pages = [page];
@@ -12,7 +15,6 @@ function getPages(page, pageCount) {
     }
     return pages;
 }
-var router = express.Router()
 
 // 书籍列表
 router.get('/list/(:page)?', (req, res) => {
@@ -43,7 +45,7 @@ router.get('/list/(:page)?', (req, res) => {
 router.get('/add', (req, res) => {
     res.render('back/book/add.html')
 })
-router.post('/add', (req, res) => {
+router.post('/add', upload.single('picture'), (req, res) => {
     new db.Book(req.body).save(err => {
         if (err) {
             if (err.code == 11000) {
