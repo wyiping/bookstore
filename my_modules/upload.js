@@ -2,8 +2,8 @@ const multer = require('multer')
 
 var storage = multer.diskStorage({
     destination: './wwwroot/img/book',
-    filename: function (req, file, cb) {
-        cb(null, req.body.bookName + '.jpg')
+    filename: function (req, file, callback) {
+        callback(null, req.body.bookName + '.jpg')
     }
 })
 

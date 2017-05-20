@@ -30,7 +30,7 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form class="form-horizontal">
+            <form class="form-horizontal" enctype="multipart/form-data">
                 <div class="box-body">
                     <div class="alert alert-danger fade in js-msg col-md-10 col-md-push-1" role="alert" style="display:none;"></div>
                     <div class="form-group">
@@ -89,7 +89,7 @@
                                     <img src="/img/default/select.png" class="img">
                                 </div>
                             </div>
-                            <input type="file" name="picture" class="pic-file" onchange="Preview(this)">
+                            <input type="file" name="picture" class="pic-file" accept=".jpg,.png" onchange="Preview(this)">
                         </div>
                     </div>
                 </div>
@@ -104,16 +104,21 @@
     </div>
 </div>
 {{/block}} {{block 'script'}}
+<script src="/js/jquery.form.js"></script>
 <script>
     $('form').submit(function (ev) {
         ev.preventDefault();
-        $.post('/admin/book/add', $(this).serialize(), function (res) {
-            if (res.code == 1) {
-                window.location.href = '/admin/book/list/';
-            } else {
-                $('.js-msg').html(res.msg).show('normal');
+        $(this).ajaxSubmit({
+            url: '/admin/book/add',
+            type: 'post',
+            success: function (res) {
+                if (res.code == 1) {
+                    window.location.href = '/admin/book/list/';
+                } else {
+                    $('.js-msg').html(res.msg).show('normal');
+                }
             }
-        })
+        });
     })
     $('.upload-preview').on('click', function () {
         $('.pic-file').click();
@@ -129,15 +134,9 @@
 
         //获取文件
         var file = pic.files[0];
-        var imageType = /^image\//;
-        //是否是图片
-        if (!imageType.test(file.type)) {
-            alert("请选择图片！");
-            return;
-        }
         //读取完成
         reader.onload = function (e) {
-            $('.img').attr('src',e.target.result)
+            $('.img').attr('src', e.target.result)
         };
         reader.readAsDataURL(file);
     }

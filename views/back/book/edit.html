@@ -1,4 +1,26 @@
-{{extend '../template.html'}} {{block 'title'}}{{book.bookName}}修改信息{{/block}} {{block 'content'}}
+{{extend '../template.html'}} {{block 'title'}}{{book.bookName}}修改信息{{/block}}{{block 'style'}}
+<style>
+    .upload-preview {
+        position: relative;
+        display: table;
+        border: 1px solid #ddd;
+        box-shadow: 1px 1px 5px 0 #a2958a;
+        padding: 6px;
+        float: left;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .upload-preview>.preview-img img {
+        width: auto;
+        height: 160px;
+    }
+
+    input[type=file] {
+        display: none;
+    }
+</style>
+{{/block}} {{block 'content'}}
 <div class="row">
     <div class="col-md-10 col-md-push-1">
         <!-- Horizontal Form -->
@@ -8,7 +30,7 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form class="form-horizontal">
+            <form class="form-horizontal" enctype="multipart/form-data">
                 <div class="box-body">
                     <div class="alert alert-danger fade in js-msg col-md-10 col-md-push-1" role="alert" style="display:none;"></div>
                     <div class="form-group">
@@ -59,6 +81,17 @@
                             <textarea class="form-control" name="introduction" id="introduction" rows="4" placeholder="简介">{{book.introduction}}</textarea>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="picture" class="col-sm-2 control-label">图片</label>
+                        <div class="col-sm-10">
+                            <div class="upload-preview">
+                                <div class="preview-img">
+                                    <img src="/img/book/{{book.picture}}" class="img" onerror="this.src='/img/default/select.png'">
+                                </div>
+                            </div>
+                            <input type="file" name="picture" class="pic-file" accept=".jpg,.png" onchange="Preview(this)">
+                        </div>
+                    </div>
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">
@@ -71,16 +104,41 @@
     </div>
 </div>
 {{/block}} {{block 'script'}}
+<script src="/js/jquery.form.js"></script>
 <script>
+    function Preview(pic) {
+        //判断是否支持FileReader
+        if (window.FileReader) {
+            var reader = new FileReader();
+        } else {
+            alert("您的设备不支持图片预览功能，如需该功能请升级您的设备！");
+            return;
+        }
+
+        //获取文件
+        var file = pic.files[0];
+        //读取完成
+        reader.onload = function (e) {
+            $('.img').attr('src', e.target.result)
+        };
+        reader.readAsDataURL(file);
+    }
+    $('.upload-preview').on('click', function () {
+        $('.pic-file').click();
+    })
     $('form').submit(function (ev) {
         ev.preventDefault();
-        $.post('/admin/book/edit/{{book.id}}', $(this).serialize(), function (res) {
-            if (res.code == 1) {
-                window.location.href = '/admin/book/list/';
-            } else {
-                $('.js-msg').html(res.msg).show('normal');
+        $(this).ajaxSubmit({
+            url: '/admin/book/edit/{{book.id}}',
+            type: 'post',
+            success: function (res) {
+                if (res.code == 1) {
+                    window.location.href = '/admin/book/list/';
+                } else {
+                    $('.js-msg').html(res.msg).show('normal');
+                }
             }
-        })
+        });
     })
 
 </script>

@@ -46,6 +46,7 @@ router.get('/add', (req, res) => {
     res.render('back/book/add.html')
 })
 router.post('/add', upload.single('picture'), (req, res) => {
+    req.body.picture = req.file.filename
     new db.Book(req.body).save(err => {
         if (err) {
             if (err.code == 11000) {
@@ -68,7 +69,8 @@ router.get('/edit/:id', (req, res) => {
         }
     })
 })
-router.post('/edit/:id', (req, res) => {
+router.post('/edit/:id', upload.single('picture'), (req, res) => {
+    req.body.picture = req.body.bookName + '.jpg';
     db.Book.findByIdAndUpdate(req.params.id, req.body, err => {
         if (err) {
             res.json({ code: 0, msg: '系统错误' });
