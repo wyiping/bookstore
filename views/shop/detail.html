@@ -1,0 +1,56 @@
+{{extend './main.html'}} {{block 'title'}}{{book.bookName}}{{/block}} {{block 'nav'}}
+<li><a href="/cart"><i class="fa fa-shopping-cart"></i> 购物车</a></li>
+<li><a href="/login" class="active"><i class="fa fa-lock"></i> 登录</a></li>
+{{/block}} {{block 'content'}}
+<section>
+    <div class="container">
+        <div class="row">
+            {{include './category.html'}}
+            <div class="col-sm-9 padding-right">
+                <div class="product-details">
+                    <!--product-details-->
+                    <div class="col-sm-5">
+                        <div class="view-product">
+                            <img src="/img/book/{{book.picture}}" alt="" />
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="product-information">
+                            <!--/product-information-->
+                            <img src="/img/default/new.jpg" class="newarrival" alt="" />
+                            <h2>{{book.bookName}}</h2>
+                            <span>
+									<span>{{book.price}}</span>
+                                    <label>数量:</label>
+                                    <input type="text" value="1" />
+                                    <button type="button" class="btn btn-fefault cart">
+										<i class="fa fa-shopping-cart"></i>
+										加入购物车
+									</button>
+                            </span>
+                            <p><b>作者：</b>{{book.author}}</p>
+                            <p><b>出版社：</b>{{book.publisher}}</p>
+                            <p><b>评分：</b>{{book.score}}</p>
+                            <p><b>简介：</b>{{book.introduction}}</p>
+                        </div>
+                        <!--/product-information-->
+                    </div>
+                </div>
+                <!--/product-details-->
+                <!--recommended_items-->
+                <div class="recommended_items">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{{/block}}
+{{block 'script'}}
+<script>
+    $(function () {
+        $('.recommended_items').load('/list/recommend/9');
+    })
+
+</script>
+{{/block}}

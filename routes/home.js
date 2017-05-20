@@ -9,8 +9,13 @@ router.get('', (req, res) => {
 
 router.get('/list/:page/:size', (req, res) => {
     db.Book.find().limit(parseInt(req.params.size)).exec((err, data) => {
-        console.log(data)
         res.render('shop/' + req.params.page + '.html', { books: data })
+    })
+})
+
+router.get('/book/:id', (req, res) => {
+    db.Book.findById(req.params.id, (err, data) => {
+        res.render('shop/detail.html', { book: data })
     })
 })
 module.exports = router;

@@ -9,12 +9,14 @@
                     <div class="col-sm-4">
                         <div class="product-image-wrapper">
                             <div class="single-products">
+                                {{if books[j]}}
                                 <div class="productinfo text-center">
-                                    <img src="img/book/{{books[j].pic}}" onerror="this.src='/img/default/no-img.png'" alt="" />
-                                    <h2>{{books[j].bookName}}</h2>
+                                    <img src="img/book/{{books[j].picture}}" onerror="this.src='/img/default/no-img.png'" alt="" />
+                                    <h2><a href="/book/{{books[j].id}}">{{books[j].bookName}}</a></h2>
                                     <p>{{books[j].price}}</p>
                                     <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>添加到购物车</a>
                                 </div>
+                                {{/if}}
                             </div>
                         </div>
                     </div>
