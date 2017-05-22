@@ -140,12 +140,34 @@
     <script src="/js/jquery.js"></script>
     <script src="/js/jquery.scrollUp.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.cookie.js"></script>
     <script>
         $(function () {
             $.scrollUp({
                 scrollText: '<i class="fa fa-angle-up"></i>'
             });
         });
+        function checkLogin() {
+            if ($.cookie("user")) {
+                var user = $.parseJSON($.cookie("user").substr(2));
+                return user;
+            } else {
+                return false;
+            }
+        }
+        function addCart(bookid) {
+            user = checkLogin();
+            if (user) {
+                $.post('/cart/add', { user: user._id, book: bookid, count: 1 }, function (res) {
+                    alert(res.msg);
+                })
+            } else {
+                alert('请先登录');
+            }
+        }
+        function cart(btn) {
+            addCart($(btn).data('bookid'));
+        }
     </script>
     {{block 'script'}} {{/block}}
 </body>

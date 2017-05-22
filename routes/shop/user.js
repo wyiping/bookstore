@@ -41,4 +41,20 @@ router.post('/register', (req, res) => {
         }
     })
 })
+
+router.post('/cart/add', (req, res) => {
+    db.Cart.find({ user: req.body.user, book: req.body.book }).count((err, count) => {
+        if (count > 0) {
+            res.json({ code: 1, msg: '已经添加到购物车！' })
+        } else {
+            new db.Cart(req.body).save(err => {
+                if (err) {
+                    res.json({ code: 0, msg: '添加失败。' })
+                } else {
+                    res.json({ code: 1, msg: '添加成功！' })
+                }
+            })
+        }
+    })
+})
 module.exports = router;

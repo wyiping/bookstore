@@ -40,5 +40,13 @@ var BookSchema = new Schema({
 });
 var Book = mongoose.model('book', BookSchema);
 
+// 购物车
+var CartSchema = new Schema({
+    user: { type: Schema.Types.ObjectId, ref: "user" },
+    book: { type: Schema.Types.ObjectId, ref: "book" },
+    count: Number
+});
+var Cart = mongoose.model('cart', CartSchema)
+
 // 导出User模块
-module.exports = { User, Book };
+module.exports = { User, Book, Cart };
