@@ -7,13 +7,13 @@
                 <img src="img/book/{{book.picture}}" onerror="this.src='/img/default/no-img.png'" alt="" />
                 <h2>{{book.bookName}}</h2>
                 <p>{{book.price}}</p>
-                <a href="javascript:void(0)" data-bookid="{{book.id}}" onclick="cart(this)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>加入购物车</a>
+                <a href="javascript:void(0)" data-bookid="{{book.id}}" onclick="addCart(this)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>加入购物车</a>
             </div>
             <div class="product-overlay">
                 <div class="overlay-content">
                     <h2><a href="/book/{{book.id}}">{{book.bookName}}</a></h2>
                     <p>{{book.price}}</p>
-                    <a href="javascript:void(0)" data-bookid="{{book.id}}" onclick="cart(this)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>加入购物车</a>
+                    <a href="javascript:void(0)" data-bookid="{{book.id}}" onclick="addCart(this)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>加入购物车</a>
                 </div>
             </div>
         </div>

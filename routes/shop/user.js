@@ -57,4 +57,20 @@ router.post('/cart/add', (req, res) => {
         }
     })
 })
+
+router.post('/cart/del', (req, res) => {
+    db.Cart.findByIdAndRemove(req.body.id, err => {
+        if (err) {
+            res.json({ code: 0, msg: '删除失败。' })
+        } else {
+            res.json({ code: 1, msg: '删除成功！' })
+        }
+    })
+})
+router.get('/cart/list/:id', (req, res) => {
+    db.Cart.find({ user: req.params.id }).populate('book').exec((err, data) => {
+        console.log(data);
+        res.render('shop/cart.html', { cart: data })
+    })
+})
 module.exports = router;

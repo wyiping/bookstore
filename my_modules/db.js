@@ -43,8 +43,7 @@ var Book = mongoose.model('book', BookSchema);
 // 购物车
 var CartSchema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: "user" },
-    book: { type: Schema.Types.ObjectId, ref: "book" },
-    count: Number
+    book: { type: Schema.Types.ObjectId, ref: "book" }
 });
 var Cart = mongoose.model('cart', CartSchema)
 

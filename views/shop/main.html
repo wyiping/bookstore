@@ -29,7 +29,7 @@
                         <div class="shop-menu pull-right">
                             <ul class="nav navbar-nav">
                                 {{block 'nav'}}
-                                <li><a href="/cart"><i class="fa fa-shopping-cart"></i> 购物车</a></li>
+                                <li><a href="javascript:void(0)" onclick="cart()"><i class="fa fa-shopping-cart"></i> 购物车</a></li>
                                 <li><a href="/login"><i class="fa fa-lock"></i> 登录</a></li>
                                 {{/block}}
                             </ul>
@@ -146,6 +146,7 @@
             $.scrollUp({
                 scrollText: '<i class="fa fa-angle-up"></i>'
             });
+            user = checkLogin();
         });
         function checkLogin() {
             if ($.cookie("user")) {
@@ -155,18 +156,21 @@
                 return false;
             }
         }
-        function addCart(bookid) {
-            user = checkLogin();
+        function addCart(btn) {
             if (user) {
-                $.post('/cart/add', { user: user._id, book: bookid, count: 1 }, function (res) {
+                $.post('/cart/add', { user: user._id, book: $(btn).data('bookid') }, function (res) {
                     alert(res.msg);
                 })
             } else {
                 alert('请先登录');
             }
         }
-        function cart(btn) {
-            addCart($(btn).data('bookid'));
+        function cart() {
+            if (user) {
+                window.location.href = '/cart/list/' + user._id;
+            } else {
+                alert('请先登录');
+            }
         }
     </script>
     {{block 'script'}} {{/block}}
