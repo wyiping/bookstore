@@ -30,7 +30,7 @@
                             <ul class="nav navbar-nav">
                                 {{block 'nav'}}
                                 <li><a href="javascript:void(0)" onclick="cart()"><i class="fa fa-shopping-cart"></i> 购物车</a></li>
-                                <li><a href="/login"><i class="fa fa-lock"></i> 登录</a></li>
+                                <li class="js-login-li"><a href="/login"><i class="fa fa-lock"></i> 登录</a></li>
                                 {{/block}}
                             </ul>
                         </div>
@@ -147,6 +147,16 @@
                 scrollText: '<i class="fa fa-angle-up"></i>'
             });
             user = checkLogin();
+            if (user) {
+                $('.js-login-li').remove();
+                var user_li = '<li class="dropdown">' +
+                    '<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user-circle fa-fw" aria-hidden="true"></i>' + user.petname + ' <b class="caret"></b></a>' +
+                    '<ul class="dropdown-menu">' +
+                    '<li><a href="/logout">退出</a></li>' +
+                    '</ul>' +
+                    '</li>'
+                $(user_li).appendTo('.shop-menu .navbar-nav')
+            }
         });
         function checkLogin() {
             if ($.cookie("user")) {

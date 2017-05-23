@@ -1,6 +1,6 @@
 {{extend './main.html'}} {{block 'title'}}登录&注册{{/block}} {{block 'nav'}}
 <li><a href="javascript:void(0)" onclick="cart()"><i class="fa fa-shopping-cart"></i> 购物车</a></li>
-<li><a href="/login" class="active"><i class="fa fa-lock"></i> 登录</a></li>
+<li><a href="/login" class="active js-login-li"><i class="fa fa-lock"></i> 登录</a></li>
 {{/block}} {{block 'content'}}
 <section id="form">
     <!--form-->
@@ -56,7 +56,7 @@
         event.preventDefault();
         $.post('/login', $(this).serialize(), function (res) {
             if (res.code == 1) {
-                // window.location.href = '/';
+                window.location.href = '/';
             } else {
                 $('.js-log-msg').html(res.msg).show('normal');
             }

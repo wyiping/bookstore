@@ -42,6 +42,10 @@ router.post('/register', (req, res) => {
     })
 })
 
+router.get('/logout', (req, res) => {
+    res.clearCookie('user');
+    res.render('shop/home.html');
+})
 router.post('/cart/add', (req, res) => {
     db.Cart.find({ user: req.body.user, book: req.body.book }).count((err, count) => {
         if (count > 0) {
