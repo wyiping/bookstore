@@ -3,7 +3,7 @@ var check = require('./my_modules/check')
 
 // 首页路由
 app.use('/', require('./routes/home'))
-app.use('/', require('./routes/shop/user'))
+app.use('/', require('./routes/shop'))
 
 // 管理员路由
 app.use('/admin', require('./routes/admin'))

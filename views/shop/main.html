@@ -61,7 +61,7 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="search_box pull-right">
-                            <input type="text" placeholder="Search" />
+                            <input type="text" placeholder="Search" class="js_search" />
                         </div>
                     </div>
                 </div>
@@ -157,6 +157,9 @@
                     '</li>'
                 $(user_li).appendTo('.shop-menu .navbar-nav')
             }
+            $('.js_search').keyup(function () {
+                SearchTo();
+            })
         });
         function checkLogin() {
             if ($.cookie("user")) {
@@ -181,6 +184,33 @@
             } else {
                 alert('请先登录');
             }
+        }
+        var SearchTime = 0;
+        var SearchGo = false;
+        var SearchGo_;
+        function Search() {
+            if (SearchGo) {
+                if (SearchTime <= 3) {
+                    SearchTime++;
+                    clearInterval(SearchGo_);
+                    SearchGo_ = setInterval("Search()", 100);
+                }
+                else {
+                    SearchGo = false;
+                    var name = $('.js_search').val();
+                    $.get('/list/new/9?name=' + name, (res) => {
+                        $('.features_items').html(res)
+                    })
+                }
+            } else {
+                clearInterval(SearchGo_);
+            }
+        }
+
+        function SearchTo() {
+            SearchTime = 0;
+            SearchGo = true;
+            Search();
         }
     </script>
     {{block 'script'}} {{/block}}

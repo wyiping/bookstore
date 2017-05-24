@@ -1,4 +1,5 @@
 <h2 class="title text-center">新书发布</h2>
+{{if books.length > 0}}
 {{each books as book}}
 <div class="col-sm-4">
     <div class="product-image-wrapper">
@@ -20,3 +21,8 @@
     </div>
 </div>
 {{/each}}
+{{else}}
+<div class="col-md-12">
+    <center><h3>无此书籍。</h3></center>
+</div>
+{{/if}}
