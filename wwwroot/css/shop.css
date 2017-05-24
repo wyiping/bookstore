@@ -185,8 +185,7 @@ a#scrollUp i{
   padding-right: 0;
 }
 
-
-.shop-menu ul li a {
+.shop-menu>ul>li>a {
   background: #FFFFFF;
   color: #696763;
   font-family: 'Roboto', sans-serif;
@@ -202,12 +201,10 @@ a#scrollUp i{
 	margin-right:3px;
 }
 
-
-.shop-menu ul li a:hover {
+.shop-menu>ul>li>a:hover {
 	color:#fe980f;
 	background:#fff;
 }
-
 
 .header-bottom {
   padding-bottom: 30px;
@@ -283,7 +280,7 @@ ul.sub-menu {
 	list-style: none;
 	padding: 0;
 	margin: 0;
-	width: 220px;
+	width: 100px;
 	-webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
 	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
 	display: none;

@@ -73,8 +73,18 @@ router.post('/cart/del', (req, res) => {
 })
 router.get('/cart/list/:id', (req, res) => {
     db.Cart.find({ user: req.params.id }).populate('book').exec((err, data) => {
-        console.log(data);
         res.render('shop/cart.html', { cart: data })
     })
 })
+
+router.post('/order', (req, res) => {
+    new db.Order(req.body).save(err => {
+        if (err) {
+            res.json({ code: 0, msg: '订购失败,系统出错' })
+        } else {
+            res.json({ code: 1, msg: '订购成功。' })
+        }
+    })
+})
+
 module.exports = router;

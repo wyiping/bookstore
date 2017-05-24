@@ -47,5 +47,19 @@ var CartSchema = new Schema({
 });
 var Cart = mongoose.model('cart', CartSchema)
 
+// 订单
+var OrderSchema = new Schema({
+    user: { type: Schema.Types.ObjectId, ref: "user" },
+    product: [
+        {
+            book: { type: Schema.Types.ObjectId, ref: "book" },
+            count: Number,
+            total: Number
+        }
+    ],
+    address: String
+});
+var Order = mongoose.model('order', OrderSchema);
+
 // 导出User模块
-module.exports = { User, Book, Cart };
+module.exports = { User, Book, Cart, Order };

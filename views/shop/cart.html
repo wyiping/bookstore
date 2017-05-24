@@ -18,7 +18,7 @@
                 </thead>
                 <tbody>
                     {{each cart as b}}
-                    <tr class="items">
+                    <tr class="items" data-bookid="{{b.book.id}}" data-cartid="{{b.id}}">
                         <td><input class="check_one" type="checkbox"></td>
                         <td class="cart_product">
                             <h4><a href="/book/{{b.book.id}}">{{b.book.bookName}}</a></h4>
@@ -47,7 +47,7 @@
                         <td colspan="4">合计：</td>
                         <td colspan="2">
                             ￥<span class="cart_total_money">0.00</span>
-                            <button type="button" class="btn btn-warning" style="margin-left:10px">结算</button>
+                            <button type="button" class="btn btn-warning" style="margin-left:10px" onclick="order()">结算</button>
                         </td>
                     </tr>
                 </tfoot>
@@ -80,6 +80,22 @@
             sum += (parseFloat(price));
         });
         $(".cart_total_money").html(sum + '.00');
+    }
+    function order() {
+        var product = [];
+        $('.check_one:checked').each(function () {
+            var self = $(this).parent().parent(),
+                bookid = $(self).data('bookid'),
+                count = self.find('.cart_quantity_input').val(),
+                total = self.find('.cart_one_price').data('price'),
+                cartid = $(self).data('cartid');
+            $.post('/cart/del/', { id: cartid })
+            product.push({ book: bookid, count: count, total: total })
+        });
+        $.post('/order', { product: product, user: user._id }, function (res) {
+            alert(res.msg);
+            location.reload();
+        })
     }
     $(function () {
         $('.items').each(function () {
