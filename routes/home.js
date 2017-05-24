@@ -48,6 +48,21 @@ router.post('/register', (req, res) => {
     })
 })
 
+router.get('/user/edit/:id', (req, res) => {
+    db.User.findById(req.params.id, (err, data) => {
+        res.render('shop/user-edit.html', { user: data })
+    })
+})
+router.post('/user/edit/:id', (req, res) => {
+    db.User.findByIdAndUpdate(req.params.id, req.body, err => {
+        if (err) {
+            res.json({ code: 0, msg: '系统错误' });
+        }
+        else {
+            res.json({ code: 1, msg: '更新成功！' });
+        }
+    })
+})
 router.get('/logout', (req, res) => {
     res.clearCookie('user');
     res.render('shop/home.html');
