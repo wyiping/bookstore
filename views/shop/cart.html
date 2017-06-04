@@ -5,6 +5,7 @@
 <section id="cart_items">
     <div class="container">
         <div class="table-responsive cart_info">
+            {{if cart.length >0}}
             <table class="table table-condensed">
                 <thead>
                     <tr class="cart_menu">
@@ -53,6 +54,9 @@
                     </tr>
                 </tfoot>
             </table>
+            {{else}}
+            <h3 style="text-align:center;">当前购物车为空！</h3>
+            {{/if}}
         </div>
     </div>
 </section>
@@ -97,7 +101,9 @@
         });
         $.post('/order', { product: product, user: user._id, price: price }, function (res) {
             alert(res.msg);
-            location.reload();
+            if (res.code == 1) {
+                window.location.href = '/order/' + user._id;
+            }
         })
     }
     $(function () {

@@ -52,13 +52,25 @@ router.get('/order/:id', (req, res) => {
         res.render('shop/order.html', {
             orders: data.map(m => {
                 m = m.toObject();
+                m.id = m._id.toString()
+                delete m._id
                 m.createTime = formatTime(m.createTime);
                 return m
             })
         })
     })
 })
-
+// 删除订单
+router.post('/order/del/:id', (req, res) => {
+    db.Order.findByIdAndRemove(req.params.id, err => {
+        if (err) {
+            res.json({ code: 0, msg: '系统错误' });
+        }
+        else {
+            res.json({ code: 1, msg: '删除成功！' });
+        }
+    })
+})
 // 订购
 router.post('/order', (req, res) => {
     req.body.createTime = new Date();
