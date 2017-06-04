@@ -73,6 +73,8 @@ router.get('/list/:page/:size', (req, res) => {
     var filter = {};
     var name = req.query.name;
     var type = req.query.type;
+    var order = {};
+    var o = req.query.order;
     if (name) {
         name = name.trim();
         if (name.length > 0) {
@@ -83,7 +85,10 @@ router.get('/list/:page/:size', (req, res) => {
         type = type.trim();
         filter.type = type;
     }
-    db.Book.find(filter).limit(parseInt(req.params.size)).exec((err, data) => {
+    if(o && o!= undefined){
+        order[o] = -1;
+    }
+    db.Book.find(filter).sort(order).limit(parseInt(req.params.size)).exec((err, data) => {
         res.render('shop/' + req.params.page + '.html', { books: data })
     })
 })

@@ -1,6 +1,6 @@
 {
   "name": "bookstore",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "在线图书销售",
   "main": "server.js",
   "scripts": {
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/yplwq/bookstore#readme",
   "dependencies": {
-    "art-template": "^4.9.1",
+    "art-template": "^4.10.0",
     "body-parser": "^1.17.1",
     "cookie-parser": "^1.4.3",
     "express": "^4.15.3",
