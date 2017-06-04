@@ -57,7 +57,9 @@ var OrderSchema = new Schema({
             total: Number
         }
     ],
-    address: String
+    address: String,
+    createTime: Date,
+    price: Number
 });
 var Order = mongoose.model('order', OrderSchema);
 

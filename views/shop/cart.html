@@ -28,9 +28,9 @@
                         </td>
                         <td class="cart_quantity">
                             <div class="cart_quantity_button">
-                                <a class="cart_quantity_up" href="javascript:void(0)" data-type="add"> + </a>
-                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
                                 <a class="cart_quantity_down" href="javascript:void(0)" data-type="lower"> - </a>
+                                <input class="cart_quantity_input" type="text" name="quantity" value="1" autocomplete="off" size="2">
+                                <a class="cart_quantity_up" href="javascript:void(0)" data-type="add"> + </a>
                             </div>
                         </td>
                         <td class="cart_total">
@@ -47,6 +47,7 @@
                         <td colspan="4">合计：</td>
                         <td colspan="2">
                             ￥<span class="cart_total_money">0.00</span>
+                            <input type="hidden" name="price">
                             <button type="button" class="btn btn-warning" style="margin-left:10px" onclick="order()">结算</button>
                         </td>
                     </tr>
@@ -79,10 +80,12 @@
                 price = self.find('.cart_one_price').data('price');
             sum += (parseFloat(price));
         });
+        $(".cart_total_money").data('price', sum);
         $(".cart_total_money").html(sum + '.00');
     }
     function order() {
         var product = [];
+        var price = $(".cart_total_money").data('price');
         $('.check_one:checked').each(function () {
             var self = $(this).parent().parent(),
                 bookid = $(self).data('bookid'),
@@ -92,7 +95,7 @@
             $.post('/cart/del/', { id: cartid })
             product.push({ book: bookid, count: count, total: total })
         });
-        $.post('/order', { product: product, user: user._id }, function (res) {
+        $.post('/order', { product: product, user: user._id, price: price }, function (res) {
             alert(res.msg);
             location.reload();
         })
