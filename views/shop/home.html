@@ -21,6 +21,9 @@
     $(function () {
         $('.features_items').load('/list/new/9')
         $('.recommended_items').load('/list/recommend/9');
+        $('#category').on('click', 'a', function () {
+            $('.features_items').load('/list/new/9?type=' + $(this).data('type'));
+        })
     })
 </script>
 {{/block}}

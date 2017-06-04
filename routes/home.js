@@ -72,11 +72,16 @@ router.get('/logout', (req, res) => {
 router.get('/list/:page/:size', (req, res) => {
     var filter = {};
     var name = req.query.name;
+    var type = req.query.type;
     if (name) {
         name = name.trim();
         if (name.length > 0) {
             filter.bookName = { '$regex': `.*${name}.*?` }
         }
+    }
+    if (type && type != 'undefined') {
+        type = type.trim();
+        filter.type = type;
     }
     db.Book.find(filter).limit(parseInt(req.params.size)).exec((err, data) => {
         res.render('shop/' + req.params.page + '.html', { books: data })
