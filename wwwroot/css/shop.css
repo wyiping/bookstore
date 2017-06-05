@@ -852,6 +852,9 @@ h2.title {
 	font-family: 'Roboto', sans-serif;
 	font-size: 24px;
 	font-weight: 700;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .product-overlay h2,.product-overlay h2 a{
 	color: #fff;

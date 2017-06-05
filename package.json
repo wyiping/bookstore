@@ -1,6 +1,6 @@
 {
   "name": "bookstore",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "description": "在线图书销售",
   "main": "server.js",
   "scripts": {
