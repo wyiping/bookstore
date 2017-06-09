@@ -56,6 +56,7 @@
                         <div class="mainmenu pull-left">
                             <ul class="nav navbar-nav collapse navbar-collapse">
                                 <li><a href="/">首页</a></li>
+                                <li><a href="/list/shop/9/1">图书</a></li>
                             </ul>
                         </div>
                     </div>
@@ -174,10 +175,7 @@
                 }
                 else {
                     SearchGo = false;
-                    var name = $('.js_search').val();
-                    $.get('/list/new/9?name=' + name, (res) => {
-                        $('.features_items').html(res)
-                    })
+                    window.location.href = '/list/shop/9/?search=' + $('.js_search').val();
                 }
             } else {
                 clearInterval(SearchGo_);
