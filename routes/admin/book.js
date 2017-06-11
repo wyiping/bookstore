@@ -18,13 +18,27 @@ function getPages(page, pageCount) {
 
 // 书籍列表
 router.get('/list/(:page)?', (req, res) => {
+    var filter = {};
+    var bookName = req.query.bookName;
+    if (bookName) {
+        bookName = bookName.trim();
+        if (bookName.length > 0) {
+            filter.bookName = {
+                // 正则表达式
+                // .表示除回车换行外的任意字符
+                // *表示0个或多个
+                // ?表示可以有也可以没有
+                '$regex': `.*${bookName}.*?`
+            }
+        }
+    }
     var page = req.params.page;
     page = page || 1;
     page = parseInt(page);
     var order = { 'bookName': 1 };
     var pageSize = 10;
 
-    db.Book.find().count((err, total) => {
+    db.Book.find(filter).count((err, total) => {
         if (err) {
             console.log(err)
         } else {
@@ -32,9 +46,10 @@ router.get('/list/(:page)?', (req, res) => {
             page = page > pageCount ? pageCount : page
             page = page < 1 ? 1 : page;
             // select对数据属性进行筛选，属性名之间用空格分隔
-            db.Book.find().sort(order).skip((page - 1) * pageSize).limit(pageSize).exec((err, data) => {
+            db.Book.find(filter).sort(order).skip((page - 1) * pageSize).limit(pageSize).exec((err, data) => {
                 res.render('back/book/list.html', {
                     page, pageCount, pageSize, order, pages: getPages(page, pageCount),
+                    search:bookName,
                     books: data
                 })
             })

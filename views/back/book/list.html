@@ -7,6 +7,16 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
+                <div class="col-md-4 col-md-push-8">
+                    <form action="/admin/book/list/" method="get" class="sidebar-form">
+                        <div class="input-group">
+                            <input type="text" name="bookName" class="form-control js-search" placeholder="请输入名称..." value="{{search}}">
+                            <span class="input-group-btn">
+                                <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
                 <table class="table table-bordered">
                     <tr>
                         <th>名称</th>
@@ -42,9 +52,9 @@
             <!-- /.box-body -->
             <div class="box-footer clearfix">
                 <ul class="pagination pagination-sm no-margin pull-right">
-                    <li><a href="javascript:void(0)" {{if page != 1 }} onclick="go('{{page-1}}')" {{/if}}>&laquo;</a></li>
+                    <li><a href="javascript:void(0)" {{if page !=1 }} onclick="go('{{page-1}}')" {{/if}}>&laquo;</a></li>
                     {{each pages as p}}
-                    <li><a href="javascript:void(0)" onclick="go('{{p}}')" {{if p == page }}class="active" {{/if}}>{{p}}</a></li>
+                    <li><a href="javascript:void(0)" onclick="go('{{p}}')" {{if p== page }}class="active" {{/if}}>{{p}}</a></li>
                     {{/each}}
                     <li><a href="javascript:void(0)" {{if page != pageCount }} onclick="go('{{page+1}}')" {{/if}}>&raquo;</a></li>
                 </ul>
@@ -55,6 +65,11 @@
 </div>
 {{/block}} {{block 'script'}}
 <script>
+    $(function () {
+        $('.js-search').keyup(function () {
+            SearchTo();
+        })
+    })
     function del(url) {
         $.get(url, function (res) {
             if (res.code == 1) {
@@ -65,7 +80,31 @@
         })
     }
     function go(page) {
-        window.location.href = '/admin/book/list/' + page;
+        window.location.href = '/admin/book/list/' + page+ '?bookName=' + $('.js-search').val();
+    }
+    var SearchTime = 0;
+    var SearchGo = false;
+    var SearchGo_;
+    function Search() {
+        if (SearchGo) {
+            if (SearchTime <= 10) {
+                SearchTime++;
+                clearInterval(SearchGo_);
+                SearchGo_ = setInterval("Search()", 100);
+            }
+            else {
+                SearchGo = false;
+                window.location.href = '/admin/book/list/?bookName=' + $('.js-search').val();
+            }
+        } else {
+            clearInterval(SearchGo_);
+        }
+    }
+
+    function SearchTo() {
+        SearchTime = 0;
+        SearchGo = true;
+        Search();
     }
 
 </script>
