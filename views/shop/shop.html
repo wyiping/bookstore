@@ -32,7 +32,7 @@
                         <ul class="pagination">
                             <li><a {{if page != 1 }} href="/list/shop/9/1?type={{type}}&search={{search}}" {{else}} href="javascript:void(0)"{{/if}}>&laquo;</a></li>
                             {{each pages as p}}
-                            <li><a href="/list/shop/9/{{p}}?type={{type}}&search={{search}}"  {{if p == page }}class="active" {{/if}}>{{p}}</a></li>
+                            <li {{if p== page }}class="active" {{/if}}><a href="/list/shop/9/{{p}}?type={{type}}&search={{search}}">{{p}}</a></li>
                             {{/each}}
                             <li><a {{if page != pageCount }} href="/list/shop/9/{{pageCount}}?type={{type}}&search={{search}}" {{else}} href="javascript:void(0)"{{/if}}>&raquo;</a></li>
                         </ul>

@@ -35,7 +35,7 @@ router.get('/list/(:page)?', (req, res) => {
     var page = req.params.page;
     page = page || 1;
     page = parseInt(page);
-    var order = { 'bookName': 1 };
+    var order = {};
     var pageSize = 10;
 
     db.Book.find(filter).count((err, total) => {

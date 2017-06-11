@@ -52,11 +52,11 @@
             <!-- /.box-body -->
             <div class="box-footer clearfix">
                 <ul class="pagination pagination-sm no-margin pull-right">
-                    <li><a href="javascript:void(0)" {{if page !=1 }} onclick="go('{{page-1}}')" {{/if}}>&laquo;</a></li>
+                    <li><a href="javascript:void(0)" {{if page !=1 }} onclick="go('{{1}}')" {{/if}}>&laquo;</a></li>
                     {{each pages as p}}
-                    <li><a href="javascript:void(0)" onclick="go('{{p}}')" {{if p== page }}class="active" {{/if}}>{{p}}</a></li>
+                    <li {{if p== page }}class="active" {{/if}}><a href="javascript:void(0)" onclick="go('{{p}}')">{{p}}</a></li>
                     {{/each}}
-                    <li><a href="javascript:void(0)" {{if page != pageCount }} onclick="go('{{page+1}}')" {{/if}}>&raquo;</a></li>
+                    <li><a href="javascript:void(0)" {{if page != pageCount }} onclick="go('{{pageCount}}')" {{/if}}>&raquo;</a></li>
                 </ul>
             </div>
         </div>
