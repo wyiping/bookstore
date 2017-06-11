@@ -11,7 +11,9 @@
                             <div class="single-products">
                                 {{if books[j]}}
                                 <div class="productinfo text-center">
-                                    <img src="/img/book/{{books[j].picture}}" onerror="this.src='/img/default/no-img.png'" alt="" />
+                                    <div style="height:132px;overflow: hidden;">
+                                        <img src="/img/book/{{books[j].picture}}" onerror="this.src='/img/default/no-img.png'" alt="" />
+                                    </div>
                                     <h2><a href="/book/{{books[j].id}}">{{books[j].bookName}}</a></h2>
                                     <p>{{books[j].price}}</p>
                                     <a href="javascript:void(0)" data-bookid="{{books[j].id}}" onclick="addCart(this)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>添加到购物车</a>

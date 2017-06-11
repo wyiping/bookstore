@@ -27,7 +27,7 @@
                         <td>{{user.phone}}</td>
                         <td>
                             <a href="/admin/user/edit/{{user.id}}"><i class="fa fa-edit"></i>编辑</a>
-                            <a href="" onclick="del('/admin/user/del/{{user.id}}')"><i class="fa fa-trash-o"></i>删除</a>
+                            <a href="javascript:void(0)" onclick="del('/admin/user/del/{{user.id}}')"><i class="fa fa-trash-o"></i>删除</a>
                         </td>
                     </tr>
                     {{/each}}
@@ -51,10 +51,12 @@
 <script>
     function del(url) {
         $.get(url, function (res) {
+            $('.js-msg').html(res.msg)
+            $('#modal').modal('show');
             if (res.code == 1) {
-                window.location.href = '/admin/user/list/';
-            } else {
-                $('.js-msg').html(res.msg).show('normal');
+                $('#modal').on('hidden.bs.modal', function (e) {
+                    window.location.href = '/admin/user/list/';
+                })
             }
         })
     }

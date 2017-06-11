@@ -71,6 +71,13 @@
         <!--/header-bottom-->
     </header>
     <!--/header-->
+    <div class="modal fade text-center" id="modal" >
+        <div class="modal-dialog">
+            <div class="modal-content" style="width:300px;margin:auto;margin-top: 200px;">
+                <div class="modal-body js-msg"></div>
+            </div>
+        </div>
+    </div>
     {{block 'content'}}{{/block}}
 
     <footer id="footer">
@@ -78,7 +85,7 @@
         <div class="footer-widget">
             <div class="container">
                 <div class="row">
-                    <h3>在本项目开发过程中，参考和使用了以下开源项目。</h3>
+                    <h3 class="hidden-xs">在本项目开发过程中，参考和使用了以下开源项目。</h3>
                     <div class="col-sm-2">
                         <div class="single-widget">
                             <h2>前端模板</h2>
@@ -150,10 +157,12 @@
         function addCart(btn) {
             if (user) {
                 $.post('/cart/add', { user: user._id, book: $(btn).data('bookid') }, function (res) {
-                    alert(res.msg);
+                    $('.js-msg').html(res.msg)
+                    $('#modal').modal('show');
                 })
             } else {
-                alert('请先登录');
+                $('.js-msg').html('请先登录')
+                $('#modal').modal('show');
             }
         }
         function cart() {

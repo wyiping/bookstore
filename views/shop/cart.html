@@ -100,9 +100,12 @@
             product.push({ book: bookid, count: count, total: total })
         });
         $.post('/order', { product: product, user: user._id, price: price }, function (res) {
-            alert(res.msg);
+            $('.js-msg').html(res.msg)
+            $('#modal').modal('show');
             if (res.code == 1) {
-                window.location.href = '/order/' + user._id;
+                $('#modal').on('hidden.bs.modal', function (e) {
+                     window.location.href = '/order/' + user._id;
+                })
             }
         })
     }

@@ -39,7 +39,7 @@
                         <td>{{book.time}}</td>
                         <td>
                             <a href="/admin/book/edit/{{book.id}}"><i class="fa fa-edit"></i>编辑</a>
-                            <a href="" onclick="del('/admin/book/del/{{book.id}}')"><i class="fa fa-trash-o"></i>删除</a>
+                            <a href="javascript:void(0)" onclick="del('/admin/book/del/{{book.id}}')"><i class="fa fa-trash-o"></i>删除</a>
                         </td>
                     </tr>
                     {{/each}} {{else}}
@@ -72,10 +72,12 @@
     })
     function del(url) {
         $.get(url, function (res) {
+            $('.js-msg').html(res.msg);
+            $('#modal').modal('show');
             if (res.code == 1) {
-                window.location.href = '/admin/book/list/';
-            } else {
-                $('.js-msg').html(res.msg).show('normal');
+                $('#modal').on('hidden.bs.modal', function (e) {
+                    window.location.href = '/admin/book/list/';
+                })
             }
         })
     }

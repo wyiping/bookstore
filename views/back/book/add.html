@@ -32,7 +32,6 @@
             <!-- form start -->
             <form class="form-horizontal" enctype="multipart/form-data">
                 <div class="box-body">
-                    <div class="alert alert-danger fade in js-msg col-md-10 col-md-push-1" role="alert" style="display:none;"></div>
                     <div class="form-group">
                         <label for="bookName" class="col-sm-2 control-label">书籍名称</label>
                         <div class="col-sm-10">
@@ -118,10 +117,12 @@
             url: '/admin/book/add',
             type: 'post',
             success: function (res) {
+                $('.js-msg').html(res.msg);
+                $('#modal').modal('show');
                 if (res.code == 1) {
-                    window.location.href = '/admin/book/list/';
-                } else {
-                    $('.js-msg').html(res.msg).show('normal');
+                    $('#modal').on('hidden.bs.modal', function (e) {
+                        window.location.href = '/admin/book/list/';
+                    })
                 }
             }
         });

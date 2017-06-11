@@ -35,18 +35,17 @@
                         </tr>
                     </tbody>
                     <% } %>
-                    <tfoot>
-                        <tr class="cart_foot">
-                            <td colspan="4">合计：</td>
-                            <td colspan="2">
-                                ￥<span class="cart_total_money">{{order.price}}</span>
-                            </td>
-                        </tr>
-                    </tfoot>
+                        <tfoot>
+                            <tr class="cart_foot">
+                                <td colspan="4">合计：</td>
+                                <td colspan="2">
+                                    ￥<span class="cart_total_money">{{order.price}}</span>
+                                </td>
+                            </tr>
+                        </tfoot>
             </table>
-            {{/each}}
-            {{if orders.length == 0}}
-                <h3 style="text-align:center;">当前无订单信息！</h3>
+            {{/each}} {{if orders.length == 0}}
+            <h3 style="text-align:center;">当前无订单信息！</h3>
             {{/if}}
         </div>
     </div>
@@ -59,10 +58,12 @@
     })
     function del(url) {
         $.post(url, function (res) {
+            $('.js-msg').html(res.msg)
+            $('#modal').modal('show');
             if (res.code == 1) {
-                location.reload(true);
-            } else {
-                $('.js-msg').html(res.msg).show('normal');
+                $('#modal').on('hidden.bs.modal', function (e) {
+                    location.reload(true);
+                })
             }
         })
     }

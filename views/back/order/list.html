@@ -40,7 +40,7 @@
                             <% if(i == 0){ %>
                             <td rowspan="{{order.product.length}}">{{order.user.petname}}</td>
                             <td rowspan="{{order.product.length}}">￥{{order.price}}</td>
-                            <td rowspan="{{order.product.length}}"><a href="" onclick="del('/admin/order/del/{{order.id}}')">取消订单</a></td>
+                            <td rowspan="{{order.product.length}}"><a href="javascript:void(0)" onclick="del('/admin/order/del/{{order.id}}')">取消订单</a></td>
                             <% } %>
                         </tr>
                     <% } %>
@@ -68,10 +68,12 @@
 <script>
     function del(url) {
         $.post(url, function (res) {
+            $('.js-msg').html(res.msg);
+            $('#modal').modal('show');
             if (res.code == 1) {
-                window.location.href = '/admin/order/list/';
-            } else {
-                $('.js-msg').html(res.msg).show('normal');
+                $('#modal').on('hidden.bs.modal', function (e) {
+                    location.reload(true);
+                })
             }
         })
     }
