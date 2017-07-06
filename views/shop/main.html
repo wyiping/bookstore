@@ -169,7 +169,8 @@
             if (user) {
                 window.location.href = '/cart/list/' + user._id;
             } else {
-                alert('请先登录');
+                $('.js-msg').html('请先登录')
+                $('#modal').modal('show');
             }
         }
         var SearchTime = 0;
@@ -177,7 +178,7 @@
         var SearchGo_;
         function Search() {
             if (SearchGo) {
-                if (SearchTime <= 3) {
+                if (SearchTime <= 5) {
                     SearchTime++;
                     clearInterval(SearchGo_);
                     SearchGo_ = setInterval("Search()", 100);
